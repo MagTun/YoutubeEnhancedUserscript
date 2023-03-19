@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Youtube Enhanced tweakX ahkqq
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/MagTun/YoutubeEnhancedUserscript
 // @version      0.1
 // @description  Youtube enhanced
 // @author       You
@@ -166,7 +166,7 @@ function dispatchkeyboard(key) {
                 if (buttons) {
                     var stop = 0
                     for (let button of buttons) {
-                        if (button.innerText == "Save" && stop == 0) {
+                        if (button.innerText == "Save" && stop == 0 && !button.classList.contains("yt-core-attributed-string--white-space-no-wrap")  ) {
                             stop = 1
                             button.click()
 
