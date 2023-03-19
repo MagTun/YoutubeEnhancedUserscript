@@ -1,24 +1,22 @@
 // ==UserScript==
 // @name         Youtube Enhanced tweakX ahkqq
-// @namespace    https://github.com/MagTun/YoutubeEnhancedUserscript/
+// @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Youtube enhanced
-// @author      MagTun
+// @author       You
 // @match       https://www.youtube.com/*
 // @grant       GM_notification
+// ==/UserScript==
 
-
-// This script addes several features:
+// This script adds several features:
 // ● with a keyboard shortcut:
 // - hide youtube control
-// - save an HTML timestamps link in the clipboardData
-// - remove the video from all the playlist (open share...) : sometimes this needs a reload
+// - save an HTML timestamps link in the clipboard as HTML
+// - remove the video from all the playlists (open share...)
 // - like/unlike a video
 // ● every 10 sec save the current video timestamp which is use the next time the video is reloaded (the timestamp can also be save by clicking on the button)
 // ● like a video after 10 seconds
 
-
-// ==/UserScript==
 var intervalID;
 
 window.lastPathStr = location.pathname;
@@ -27,12 +25,14 @@ window.lastHashStr = location.hash;
 
 window.addEventListener("load", function () {
     addNoticeShareSave()
+    window.addEventListener("keydown", dispatchkeyboard);
 });
 
 function addNoticeShareSave() {
     'use strict';
     var infoEE = document.createElement("div");
     infoEE.id = "infoEE";
+    infoEE.fontSize = "15px;";
     infoEE.innerHTML = " 👍:!w ⮳:!s  💾:!x";
     infoEE.style.position = "fixed";
     infoEE.style.zIndex = "100000"
@@ -51,8 +51,6 @@ function addNoticeShareSave() {
     button.style.top = "115px";
     button.style.left = "10px";
     document.body.appendChild(button);
-
-
     button.onclick = savetime
 
 // Get current timestamp and save to localstorage
@@ -74,8 +72,10 @@ function addNoticeShareSave() {
         // Load video at saved timestamp
         var player = document.getElementById("movie_player");
         player.seekTo(savedTimestamp);
+      console.log("seekto")
         // var button = document.getElementById("saveTimeEE")
-        button.innerHTML = "Reloaded at " + parseInt(savedTimestamp / 60) + ":" + String(parseInt(timestamp % 60)).padStart(2, '0');
+        button.innerHTML = "Reloaded at " + parseInt(savedTimestamp / 60) + ":" + String(parseInt(savedTimestamp % 60)).padStart(2, '0');
+      console.log("button.innerHTML", button.innerHTML)
         button.style.backgroundColor = "green";
         // setTimeout(function(){ button.style.backgroundColor = ""; button.innerHTML = parseInt(savedTimestamp/60) + ":" + parseInt(savedTimestamp%60); }, 10000);
     }
@@ -89,10 +89,6 @@ function addNoticeShareSave() {
             document.getElementsByTagName("yt-animated-icon")[0].click() // like video
             document.getElementById("infoEE").style.backgroundColor = "rgb(220 112 235)"
         }
-
-
-
-
     }, 10000);
     intervalID = setInterval(function () {
        // document.getElementById("saveTimeEE").click()
@@ -126,13 +122,13 @@ function gmMain() {
         var infoEE = document.getElementById("infoEE")
         infoEE.parentNode.removeChild(infoEE)
         addNoticeShareSave()
-
+        window.addEventListener("keydown", dispatchkeyboard);
     }, 1000);
 }
 
 
 //# ============================================================== ¤
-window.addEventListener("keydown", dispatchkeyboard);
+
 
 
 function dispatchkeyboard(key) {
