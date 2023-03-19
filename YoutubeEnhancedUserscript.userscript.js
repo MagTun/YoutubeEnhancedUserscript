@@ -3,7 +3,7 @@
 // @namespace    https://github.com/MagTun/YoutubeEnhancedUserscript
 // @version      0.1
 // @description  Youtube enhanced
-// @author       You
+// @author       MagTun
 // @match       https://www.youtube.com/*
 // @grant       GM_notification
 // ==/UserScript==
